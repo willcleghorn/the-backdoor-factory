@@ -9,16 +9,16 @@ from pyasn1.codec.ber import encoder, decoder
 f = open(sys.argv[1], 'rb')
 filehdr = f.read(1024)
 if filehdr[0:2] != 'MZ':
-    print "Not a DOS file."
+    print ("Not a DOS file.")
     sys.exit(0)
 pepos = struct.unpack('<I', filehdr[60:64])[0]
 if filehdr[pepos:pepos+4] != 'PE\0\0':
-    print "Not a PE file."
+    print ("Not a PE file.")
     sys.exit(0)
 pepos += 4
 
 nsections = struct.unpack('<H', filehdr[pepos+2:pepos+4])[0]
-print "#sections", nsections
+print ("#sections", nsections)
 
 magic = struct.unpack('<H', filehdr[pepos+20:pepos+22])[0]
 pe32plus = 0
@@ -27,15 +27,15 @@ if magic == 0x20b:
 elif magic == 0x10b:
     pe32plus = 0
 else:
-    print "Unknown magic", magic
+    print ("Unknown magic", magic)
     sys.exit(0)
 
 sectoralign = struct.unpack('<I', filehdr[pepos+52:pepos+56])[0]
-print "Sector alignment", sectoralign
+print ("Sector alignment", sectoralign)
 
 pos = pepos + 112 + pe32plus*16
 nrvas = struct.unpack('<I', filehdr[pos:pos+4])[0]
-print "#rvas", nrvas
+print ("#rvas", nrvas)
 
 pos += 4
 tpos = pos
@@ -52,13 +52,13 @@ for i in range(0, nsections):
     sections.append((vsize,vaddr,rsize,raddr))
 
 hdrend = pos
-print "End of headers", pos
-print rvas
-print sections
+print ("End of headers", pos)
+print (rvas)
+print (sections)
 
 sigpos,siglen = rvas[4]
 if sigpos == 0:
-    print "No signature found"
+    print ("No signature found")
     sys.exit(0)
 
 f.seek(sigpos)
@@ -68,7 +68,7 @@ oid_ph_v1 = "\x06\x01\x04\x01\x82\x37\x02\x03\x01"
 oid_ph_v2 = "\x06\x01\x04\x01\x82\x37\x02\x03\x02"
 p = sigblob.find(cid_page_hash)
 if p == -1:
-    print "No page hash present"
+    print ("No page hash present")
     sys.exit(0)
 
 p += len(cid_page_hash)
@@ -77,7 +77,7 @@ i = sigblob.find(oid_ph_v1)
 if i == -1:
     i = sigblob.find(oid_ph_v2)
     if i == -1:
-        print "No page hash found"
+        print ("No page hash found")
         sys.exit(0)
     sha1 = False
 p = i + len(oid_ph_v1)
@@ -106,9 +106,9 @@ b += '\0'*(4096-1024)
 md.update(b)
 digest = md.hexdigest()
 
-print ""
-print "Checking page hash..."
-print ""
+print ("")
+print ("Checking page hash...")
+print ("")
 
 nph = [(0,digest)]
 lastpos = 0
@@ -136,4 +136,4 @@ for i in range(0,len(nph)):
     x=ph[i]
     y=nph[i]
     if x[0] != y[0] or x[1] != y[1]:
-        print "Not matching:", x, "!=", y
+        print ("Not matching:", x, "!=", y)

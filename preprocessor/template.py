@@ -44,9 +44,9 @@ class preprocessor:
         # add a tab for readability
         try:
 
-            print '\t[*] Default Template test complete'
+            print ('\t[*] Default Template test complete')
 
         #  Of course this doesn't fail
-        except Exception, e:
-            print "Why fail?", str(e)
+        except Exception as e:
+            print ("Why fail?", str(e))
             self.result = False

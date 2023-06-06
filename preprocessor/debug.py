@@ -40,7 +40,7 @@ class preprocessor:
         return self.result
 
     def print_debug(self):
-        print "*"*25, "DEBUG INFO", "*"*25
+        print ("*"*25, "DEBUG INFO", "*"*25)
 
         try:
             for item, data in vars(self.BDF).iteritems():
@@ -48,18 +48,18 @@ class preprocessor:
                 if item == 'flItms':
                     continue
                 # This will give ARGS info
-                print item, ":" ,data
+                print (item, ":" ,data)
             
             # BDF functions are exposed | print PE flItms (PE only)
             if 'flItms' in vars(self.BDF):
                 self.BDF.print_flItms(self.BDF.flItms)
 
-        except Exception, e:
-            print "!" * 50
-            print "\t[!] Exception:", str(e)
-            print "!" * 50
+        except Exception as e:
+            print ("!" * 50)
+            print ("\t[!] Exception:", str(e))
+            print ("!" * 50)
 
             self.result = False
 
-        print "*"*25, "END DEBUG INFO", "*"*25
+        print ("*"*25, "END DEBUG INFO", "*"*25)
 

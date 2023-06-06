@@ -40,14 +40,14 @@ class preprocessor:
         self.nsis30()
 
     def nsis30(self):
-        print '\tNSIS 3.0 CRC32 Check | Patch Out Preprocessor'
+        print ('\tNSIS 3.0 CRC32 Check | Patch Out Preprocessor')
         with open(self.BDF.tmp_file.name, 'r+b') as self.f:
             self.check_NSIS()
             if self.nsis_binary is True:
-                print "\t[*] NSIS 3.0 Binary loaded"
+                print ("\t[*] NSIS 3.0 Binary loaded")
                 self.patch_crc32_check()
             else:
-                print "\t[*] NSIS 3.0 Binary NOT loaded"
+                print ("\t[*] NSIS 3.0 Binary NOT loaded")
 
     def check_NSIS(self):
         check_one = False
@@ -78,12 +78,12 @@ class preprocessor:
             locations.append(m.start())
          
         if len(locations) > 1:
-            print "\t[*] More than one binary match, picking first"
+            print ("\t[*] More than one binary match, picking first")
             match_loc = locations[0]
         else:
             match_loc = locations[0]
 
-        print "\t[*] Patch location", hex(match_loc)
+        print ("\t[*] Patch location", hex(match_loc))
         
         self.f.seek(match_loc + 4)
         self.f.write("\x84")
